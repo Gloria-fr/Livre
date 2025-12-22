@@ -19,6 +19,7 @@ function SignIn({ setUser }) {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [notification, setNotification] = useState({ error: false, message: '' });
+
   const signIn = async () => {
     try {
       setIsLoading(true);
@@ -40,7 +41,7 @@ function SignIn({ setUser }) {
       }
     } catch (err) {
       console.log(err);
-      setNotification({ error: true, message: err.message });
+      setNotification({ error: true, message: err.response?.data?.message || err.message });
       console.log('Some error occured during signing in: ', err);
     } finally {
       setIsLoading(false);
@@ -64,13 +65,15 @@ function SignIn({ setUser }) {
       }
       setNotification({ error: false, message: 'Votre compte a bien été créé, vous pouvez vous connecter' });
     } catch (err) {
-      setNotification({ error: true, message: err.message });
+      setNotification({ error: true, message: err.response?.data?.message || err.message });
       console.log('Some error occured during signing up: ', err);
     } finally {
       setIsLoading(false);
     }
   };
+
   const errorClass = notification.error ? styles.Error : null;
+
   return (
     <div className={`${styles.SignIn} container`}>
       <Logo />
@@ -78,7 +81,7 @@ function SignIn({ setUser }) {
         {notification.message.length > 0 && <p>{notification.message}</p>}
       </div>
       <div className={styles.Form}>
-        <label htmlFor={email}>
+        <label htmlFor="email">
           <p>Adresse email</p>
           <input
             className=""
@@ -103,10 +106,7 @@ function SignIn({ setUser }) {
         <div className={styles.Submit}>
           <button
             type="submit"
-            className="
-            flex justify-center
-            p-2 rounded-md w-1/2 self-center
-            bg-gray-800  text-white hover:bg-gray-800"
+            className="flex justify-center p-2 rounded-md w-1/2 self-center bg-gray-800 text-white hover:bg-gray-800"
             onClick={signIn}
           >
             {isLoading ? <div className="" /> : null}
@@ -117,10 +117,7 @@ function SignIn({ setUser }) {
           <span>OU</span>
           <button
             type="submit"
-            className="
-            flex justify-center
-            p-2 rounded-md w-1/2 self-center
-            bg-gray-800  text-white hover:bg-gray-800"
+            className="flex justify-center p-2 rounded-md w-1/2 self-center bg-gray-800 text-white hover:bg-gray-800"
             onClick={signUp}
           >
             {
