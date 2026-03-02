@@ -3,12 +3,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 // signup controller
-
-// ==========================================
-// 2. 注册逻辑 (SIGNUP)
-// ==========================================
 exports.signup = (req, res, next) => {
-    // 拦截密码为空的情况
+    // null
     if (!req.body.password) {
         return res.status(400).json({ 
             message: "L'adresse email et le mot de passe sont requis. (Error 400 Bad Request)" 
@@ -26,20 +22,19 @@ exports.signup = (req, res, next) => {
                 .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
                 .catch(error => {
                     if (error.name === 'ValidationError') {
-                        // 👉 关键修改：检查错误信息里有没有 "unique" (重复) 这个词
                         if (error.message.includes('unique')) {
                             return res.status(400).json({ 
                                 message: "Cet adresse email est déjà utilisée. (Error 400 Bad Request)" 
                             });
                         }
                         
-                        // 如果没有 "unique"，那才是真的没填
+                        // ll ny a pas de "unique"，vide
                         return res.status(400).json({ 
                             message: "L'adresse email et le mot de passe sont requis. (Error 400 Bad Request)" 
                         });
                     }
                     
-                    // 情况3: 邮箱已存在
+                    // l'email existe déjà 
                     if (error.code === 11000) {
                         return res.status(400).json({ 
                             message: "Cet adresse email est déjà utilisée. (Error 400 Bad Request)" 
@@ -52,35 +47,28 @@ exports.signup = (req, res, next) => {
         .catch(error => res.status(500).json({ error: "Erreur serveur (Error 500)" }));
 };
 
-// ==========================================
-// 3. 登录逻辑 (LOGIN) - 含 JWT
-// ==========================================
-// ==========================================
-// 3. 登录逻辑 (LOGIN) - 区分报错版
-// ==========================================
+
 exports.login = (req, res, next) => {
    User.findOne({ email: req.body.email })
        .then(user => {
-           // 🛑 情况 A：用户不存在 (User not found)
+           // User n'existe pas
            if (!user) {
-               // 👇 这里改成你想要的特定提示
                return res.status(401).json({ 
                    message: "Cet utilisateur n'existe pas. Veuillez vous inscrire. (Error 401)" 
                });
            }
            
-           // 🛑 情况 B：验证密码
+           // User existe, comparer les mots de passe
            bcrypt.compare(req.body.password, user.password)
                .then(valid => {
-                   // 密码错误
+                   // Mot de passe incorrect
                    if (!valid) {
-                       // 👇 密码错了报这个
                        return res.status(401).json({ 
                            message: 'Mot de passe incorrect. (Error 401)' 
                        });
                    }
                    
-                   // 🎉 登录成功，生成 Token
+                   // Mot de passe correct, générer un token
                    res.status(200).json({
                        userId: user._id,
                        token: jwt.sign(
