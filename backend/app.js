@@ -7,8 +7,8 @@ const userRoutes = require('./routes/user');
 const app = express();
 const path = require('path');
 
-// BDD
-mongoose.connect('mongodb+srv://Yang:930929@cluster0.bwiqeah.mongodb.net/?retryWrites=true&w=majority')
+// BDD694318b8bd5e144a0a181ef2
+mongoose.connect('mongodb+srv://yang123:liyang930929@cluster0.bwiqeah.mongodb.net/?retryWrites=true&w=majority')
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch((error) => console.log('Connexion à MongoDB échouée !', error));
 

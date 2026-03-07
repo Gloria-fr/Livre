@@ -4,7 +4,6 @@ const router = express.Router();
 
 const Book = require('../models/Book');
 
-
 // Middleware
 const auth = require('../middleware/auth');
 const multer = require('../middleware/multer-config');

@@ -34,7 +34,7 @@ exports.signup = (req, res, next) => {
                         });
                     }
                     
-                    // l'email existe déjà 
+                    // l'email 
                     if (error.code === 11000) {
                         return res.status(400).json({ 
                             message: "Cet adresse email est déjà utilisée. (Error 400 Bad Request)" 
@@ -47,7 +47,7 @@ exports.signup = (req, res, next) => {
         .catch(error => res.status(500).json({ error: "Erreur serveur (Error 500)" }));
 };
 
-
+// login controller
 exports.login = (req, res, next) => {
    User.findOne({ email: req.body.email })
        .then(user => {

@@ -4,6 +4,7 @@ const fs = require('fs');
 
 // API : CreateBook -> POST /api/books
 exports.createBook = (req, res, next) => {
+ // livre du front
 const bookObject = JSON.parse(req.body.book);
 
   // Nettoyage ID du font
@@ -12,7 +13,7 @@ const bookObject = JSON.parse(req.body.book);
 
   // Book instance
   const book = new Book({
-      ...bookObject, // Json du front 
+      ...bookObject, 
       userId: req.auth.userId, // userId du token 
       // URL de l'image 
       imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
@@ -112,7 +113,7 @@ exports.rateBook = (req, res, next) => {
       if (!book) {
         return res.status(404).json({ message: 'Livre non trouvé' });
       }
-      // some: vérifier si l'utilisateur a déjà noté ce livre
+      // some
       const hasRated = book.ratings.some(rating => rating.userId === req.body.userId);
       if (hasRated) {
         return res.status(400).json({ message: 'Vous avez déjà noté ce livre' });
