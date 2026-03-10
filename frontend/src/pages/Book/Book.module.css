@@ -12,6 +12,7 @@
     box-sizing: border-box;
 }
 
+
 .BookContainer hr {
     width: 60%;
     border-color: transparent;
@@ -177,6 +178,7 @@
         align-items: center;
         margin-top: 2em;
     }
+
 
 }
 
