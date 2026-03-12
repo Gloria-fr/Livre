@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken'); // jsonwebtoken plugin，Token
- 
+require('dotenv').config();
+
 module.exports = (req, res, next) => {
    try {
        // Authorization: Bearer <token123>
