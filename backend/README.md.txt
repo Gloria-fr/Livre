@@ -71,7 +71,6 @@ Notation : Système de notation (rating) pour chaque livre.
 
 Gestion du contenu : Ajout, modification et suppression de livres par leur propriétaire.
 
-Optimisation : Redimensionnement automatique des images téléchargées.
 
 Développeur
 Projet réalisé par Yang - Parcours Développeur Web OpenClassrooms.
